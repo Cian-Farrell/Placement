@@ -22,7 +22,7 @@ public class EmployeeAfterLogin extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
 	private static String EMPLOYEE_EDIT = "views/employeeedit.jsp";
-	private static String LIST_EMPLOYEES = "views/success.jsp";
+	private static String LIST_EMPLOYEES = "selection.jsp";
 	
 	private EmployeeDAO dao;
        

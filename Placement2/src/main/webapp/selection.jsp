@@ -1,38 +1,32 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-
+<%@ page import="java.sql.*" %>
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
+    <!-- Website Title & Description for Search Engine purposes -->
     <title>Carty Meats Web Service</title>
+    <meta name="description" content="Edit or delete employees after login">
+    
+    <!-- Mobile viewport optimized -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     
     <!-- Bootstrap CSS -->
     <link href="assets/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link href="assets/includes/css/bootstrap-glyphicons.css" rel="stylesheet">
     <link href="assets/includes/css/signin.css" rel="stylesheet">
     <link href="assets/includes/css/sticky-footer.css" rel="stylesheet">
+    
+    <!-- Custom CSS -->
     <link href="assets/includes/css/styles.css" rel="stylesheet">
     
     <style>
-        /* Add custom styles here */
-        /* Adjustments to fit within viewport */
-        .vertical-buttons {
-            margin-bottom: 20px;
+        table, th, td {
+            border: 1px solid black;
+            border-collapse: collapse;
         }
-        
-        .horizontal-buttons .dropdown {
-            margin-right: 10px;
+        th, td {
+            padding: 5px;
         }
-        
-        .navbar {
-        background-color: #602033;
-    	}
-    	
-    	.navbar-nav > li > a {
-        color: white;
-    	}
         
         .footer {
             position: fixed;
@@ -43,243 +37,164 @@
             text-align: center;
             padding: 8px 0;
         }
-        .container {
-  			text-align: left;
-		}
-
-		.container .mt-4 {
-  		margin-left: auto;
-  		margin-right: auto;
-		}
-		
-		body {
-        background-image: url('assets/images/ezgif.png');
-        background-size: cover; /* Cover the entire background */
-        background-repeat: no-repeat; /* Prevent repeating of the image */
-    	}
         
+        .navbar {
+            background-color: #602033;
+        }
+        
+        .navbar-nav > li > a {
+            color: white;
+        }
+        
+        body {
+            background-image: url('assets/images/ezgif.png');
+            background-size: cover; /* Cover the entire background */
+            background-repeat: no-repeat; /* Prevent repeating of the image */
+            background-attachment: fixed; /* Ensure the background image stays fixed */
+            overflow: hidden; /* Disable scrolling */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #e4bf80;
+        }
+
+        /* Centering text and button */
+        .center-content {
+            text-align: center;
+        }
+
+        /* Changing button color */
+        .custom-btn {
+            background-color: #602033 !important;
+            color: white !important;
+        }
+
+        /* Centering the navbar brand */
+        .navbar-brand {
+		    display: flex;
+		    justify-content: center;
+		    align-items: center;
+		    margin-left: 240px; /* Adjust margin-left as needed */
+		    margin-right: 0; /* Reset right margin */
+		}
+        
+        /* Centering the login form */
+        .login-form {
+            margin-top: 50px; /* Adjust margin-top as needed */
+            text-align: center;
+        }
+        
+        .custom-btn {
+            background-color: #602033 !important;
+            color: white !important;
+        }
     </style>
 </head>
-<body style="background-color: #e4bf80">
+<body>
 
-<div id="main">
+<div class="container" id="main">
+
     <div class="navbar navbar-fixed-top">
-        <div class="container" style="padding: 0;">                    
+        <div class="container" style="padding: 0;">
+            
             <button class="navbar-toggle" data-target=".navbar-responsive-collapse" data-toggle="collapse" type="button">
                 <span class="icon-bar"></span>
-                <span class="icon-bar"></span>	
+                <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="/"><img src="assets/images/CartyMeats.png" width="35" height="30" alt="Your Logo"></a>
+
+            <a class="navbar-brand" href="/"><img src="assets/images/taste-the-carty-cure-light.png" width="300" height="90" alt="Your Logo"></a>
 
             <div class="nav-collapse collapse navbar-responsive-collapse">
                 <ul class="nav navbar-nav">
-                    <li>
-                        <a href="index.jsp">Home</a>
-                    </li>
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Services<strong class="caret"></strong></a>
-                            <ul class="dropdown-menu">
-                                <li>
-                                    <a href="index.jsp">Login</a>
-                                </li>                                   
-                                <li class="divider"></li>
-
-                                <li class="dropdown-header">More Services</li>
-                                <li>
-                                    <a href="views/about.jsp">About Us</a>
-                                </li>
-                                <li>
-                                    <a href="https://www.facebook.com/olivercartyandfamily/">Social Media</a>
-                                </li>
-                            </ul>
-                    </li>
+                    <!-- Home button removed -->
                 </ul>
-
-                <form class="navbar-form pull-left"  >
-                    <input type="text" class="form-control" placeholder="Search product..." id="searchInput">
-                    <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search"></span></button>
-                </form><!-- end navbar-form -->
-                
-                <ul class="nav navbar-nav pull-right">
-                    <li>
-                        <a href="#"><span class="glyphicon glyphicon-user"></span>My Account</a>
-                    </li>
-                </ul><!-- end nav pull-right -->
-
             </div><!-- end nav-collapse -->
         </div><!-- end container -->
-        
     </div><!-- end navbar-->
 
-    <div class="row" id="featuresHeading">
-        <div class="col-12">
-            
-        </div>
-        
-    </div>
-
-<!-- Start of Selection Page Heading -->
     <div class="container">
-       <h1 class="mt-4">Selection Page</h1>
-<!-- End of Selection Page Heading -->
+        <!-- End of Selection Page Heading -->
        
-       
-<!-- Start of Drop Down Menu Design -->
-<h2>Town:</h2>
-<select id="townDropdown" onchange="handleTownSelection()">
-  <option value="town0">Select town</option>
-  <option value="town1">Athlone</option>
-  <option value="town2">Tullamore</option>
-  <option value="town3">Portlaoise</option>
-  <option value="town4">Longford</option>
-  <option value="town5">Ballinasloe</option>
-  <option value="town6">Clara</option>
-  <option value="town7">Newbridge</option>
-  <option value="town8">Maynooth</option>
-</select>
+        <form action="saveSelection" method="post">
+            <!-- Town Dropdown -->
+            <h2>Town:</h2>
+            <select id="townDropdown" name="town">
+                <option value="Select town">Select town</option>
+                <% 
+                // Establish database connection
+                Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3307/employees", "root", "");
+                Statement stmt = conn.createStatement();
+                
+                // Retrieve towns from database
+                ResultSet townsResult = stmt.executeQuery("SELECT DISTINCT town FROM stores");
+                while (townsResult.next()) {
+                    String town = townsResult.getString("town");
+                %>
+                <option value="<%= town %>"><%= town %></option>
+                <% 
+                }
+                townsResult.close();
+                stmt.close();
+                conn.close();
+                %>
+            </select>
 
-<h2>Store:</h2>
-<select id="storeDropdown" onchange="handleSelection('store')">
-  <option value="store0">Select Store</option>
-  <option value="store1">Dunnes Stores</option>
-  <option value="store2">SuperValu</option>
-  <option value="store3">Tesco</option>
-  <option value="store4">Spar</option>
-</select>
+            <!-- Store Dropdown - Initially empty -->
+            <h2>Store:</h2>
+            <select id="storeDropdown" name="store">
+                <option value="Select Store">Select Store</option>
+            </select>
 
-<h2>Rank:</h2>
-<select id="rankDropdown">
-  <option value="rank0">Select Rank</option>
-  <option value="rank1">A</option>
-  <option value="rank2">B</option>
-  <option value="rank3">C</option>
-  <option value="rank4">D</option>
-</select>
-
-<h2>Product:</h2>
-<select id="productDropdown">
-  <option value="product0">Select Product</option>
-  <option value="product1">Bacon</option>
-  <option value="product2">Rashers</option>
-  <option value="product3">Pork</option>
-</select>
-
-
-
-<!-- Start of Drop Down Menu Design -->
-<h2>Facings:</h2>
-<div class="row">
-    <div class="col">
-        <input type="text" id="additionalInfoInput" onchange="handleInput()">
+           			<div class="row mt-3">
+			    <div class="col">
+			        <!-- Save button -->
+			        <button class="btn btn-lg btn-primary btn-block custom-btn" type="submit">Save</button>
+			    </div>
+			</div>
+        </form>
     </div>
-</div>
-<div class="row mt-3">
-    <div class="col">
-        <!-- Save button -->
-		   <button class="btn btn-lg btn-primary btn-block" type="submit" />Save</button>
-    </div>
-</div>
-<!-- End of Drop Down Menu Design -->
+</div><!-- end container -->
 
-
-
-<!-- Start of Drop Down Menu Functionality -->
-<script>
-function handleTownSelection() {
-  var townDropdown = document.getElementById("townDropdown");
-  var storeDropdown = document.getElementById("storeDropdown");
-  var selectedTown = townDropdown.value;
-  
-  // Clear existing options
-  storeDropdown.innerHTML = "";
-  
-  // Add options based on selected town
-  if (selectedTown === "town1") {
-    addOption(storeDropdown, "store1", "Dunnes Stores");
-    addOption(storeDropdown, "store2", "SuperValu");
-    addOption(storeDropdown, "store4", "Spar");
-    
-  }else if(selectedTown == "town2"){
-	  addOption(storeDropdown, "store1", "Dunnes Stores");
-	  addOption(storeDropdown, "store3", "Tesco");
-	  addOption(storeDropdown, "store4", "Spar");
-
-  }else if(selectedTown == "town3"){
-	  addOption(storeDropdown, "store1", "Dunnes Stores");
-	  addOption(storeDropdown, "store2", "SuperValu");
-	  addOption(storeDropdown, "store3", "Tesco");
-	  addOption(storeDropdown, "store4", "Spar");
-
-  }else if(selectedTown == "town4"){
-	  addOption(storeDropdown, "store1", "Dunnes Stores");
-	  addOption(storeDropdown, "store2", "SuperValu");
-	  addOption(storeDropdown, "store3", "Tesco");
-	  addOption(storeDropdown, "store4", "Spar");
-
-  }else if(selectedTown == "town5"){
-	  addOption(storeDropdown, "store2", "SuperValu");
-	  addOption(storeDropdown, "store3", "Tesco");
-	  addOption(storeDropdown, "store4", "Spar");
-
-  }else if(selectedTown == "town6"){
-	  addOption(storeDropdown, "store3", "Tesco");
-
-  }else if(selectedTown == "town7"){
-	  addOption(storeDropdown, "store1", "Dunnes Stores");
-	  addOption(storeDropdown, "store2", "SuperValu");
-	  addOption(storeDropdown, "store3", "Tesco");
-	  addOption(storeDropdown, "store4", "Spar");
-
-  }else if(selectedTown == "town8"){
-	  addOption(storeDropdown, "store1", "Dunnes Stores");
-	  addOption(storeDropdown, "store2", "SuperValu");
-	  addOption(storeDropdown, "store3", "Tesco");
-	  addOption(storeDropdown, "store4", "Spar");
-	  
-	  
-	}else {
-    // Default options for other towns
-    addOption(storeDropdown, "store1", "Dunnes Stores");
-    addOption(storeDropdown, "store2", "SuperValu");
-    addOption(storeDropdown, "store3", "Tesco");
-    addOption(storeDropdown, "store4", "Spar");
-  }
-}
-
-function addOption(selectElement, value, text) {
-  var option = document.createElement("option");
-  option.value = value;
-  option.text = text;
-  selectElement.add(option);
-}
-</script>
-<!-- End of Drop Down Menu Functionality -->
-   </div>
-
-<!-- Start of Footer Design -->
 <footer class="footer">
+    <div class="container">
         <div class="row">
-            <img src="assets/images/TUS.png" width="43" height="44" alt="Made by TUS" title="Made by TUS">
-            <p>&copy; 2024 TUS</p>
-    	</div>
+            <img src="assets/images/TUS-Logo_Primary_RGB.png" width="80" height="34" alt="Made by TUS" title="Made by TUS">
+            <p>&copy; 2024 TUS - - A-Mazing Team.</p>
+        </div>
+    </div>
 </footer>
-<!-- End of Footer Design -->
-
 
 <!-- All Javascript at the bottom of the page for faster page loading -->
-
-<!-- First try for the online version of jQuery-->
 <script src="https://code.jquery.com/jquery.js"></script>
-
-<!-- If no online access, fallback to our hardcoded version of jQuery -->
-<script>window.jQuery || document.write('<script src="assets/includes/js/jquery-1.8.2.min.js"><\/script>')</script>
-
-<!-- Bootstrap JS -->
+<script>
+    $(document).ready(function() {
+        // When a town is selected, fetch corresponding stores via AJAX
+        $('#townDropdown').change(function() {
+            var selectedTown = $(this).val();
+            $.ajax({
+                url: 'getStores.jsp', // URL to your JSP/Servlet to fetch stores
+                type: 'GET',
+                data: { town: selectedTown },
+                success: function(data) {
+                    // Clear existing options and append new options for stores
+                    $('#storeDropdown').empty();
+                    $('#storeDropdown').append('<option value="Select Store">Select Store</option>');
+                    $.each(data, function(index, store) {
+                        $('#storeDropdown').append('<option value="' + store + '">' + store + '</option>');
+                    });
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error fetching stores:', error);
+                }
+            });
+        });
+    });
+</script>
 <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+<script src="assets/bootstrap/js/script.js"></script>
 
-<!-- Custom JS -->
-<script src="assets/includes/js/script.js"></script>
-
-	</body>
+</body>
 </html>

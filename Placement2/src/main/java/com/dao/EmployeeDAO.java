@@ -21,6 +21,8 @@ public class EmployeeDAO {
 	      //Class.forName("com.mysql.jdbc.Driver");
 	      connection = DriverManager.getConnection(
 	    		  "jdbc:mysql://localhost:3307/employees", "root", "");
+	        System.out.println("Database connection established successfully.");
+
 	    } catch (Exception e) {
 	      e.printStackTrace();
 	    }
