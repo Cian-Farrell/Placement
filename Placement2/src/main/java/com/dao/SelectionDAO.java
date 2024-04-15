@@ -64,6 +64,8 @@ public class SelectionDAO {
         }
         return selectionList;
     }
+    
+    
 
     private void printSQLException(SQLException ex) {
         for (Throwable e : ex) {

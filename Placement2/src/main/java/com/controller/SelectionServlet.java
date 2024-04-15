@@ -24,7 +24,7 @@ public class SelectionServlet extends HttpServlet {
         String store = request.getParameter("store");
         String ranking = request.getParameter("rank");
         String product = request.getParameter("product");
-        String facings = request.getParameter("additionalInfo");
+        String facings = request.getParameter("facings");
 
         Selection selection = new Selection(town, store, ranking, product, facings);
 
