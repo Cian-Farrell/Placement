@@ -15,7 +15,6 @@ public class SelectionDAO {
     public static Connection getConnection() {
         Connection connection = null;
         try {
-            // Establish database connection
             connection = DriverManager.getConnection("jdbc:mysql://localhost:3307/employees", "root", "");
             System.out.println("Successfully connected to DB");
         } catch (Exception e) {
@@ -46,26 +45,57 @@ public class SelectionDAO {
         return result;
     }
 
-    public List<Selection> getAllSelections() {
-        Connection connection = getConnection();
-        List<Selection> selectionList = new ArrayList<>();
+    public List<String> getStoresByTown(String town) {
+        List<String> stores = new ArrayList<>();
 
-        try {
-            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM selection");
+        try (Connection connection = getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement("SELECT store FROM stores WHERE town = ?")) {
+            preparedStatement.setString(1, town);
             ResultSet rs = preparedStatement.executeQuery();
+            
             while (rs.next()) {
-                Selection selection = new Selection(rs.getString("town"), rs.getString("store"),
-                                                     rs.getString("ranking"), rs.getString("product"),
-                                                     rs.getString("facings"));
-                selectionList.add(selection);
+                stores.add(rs.getString("store"));
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return selectionList;
+
+        return stores;
     }
-    
-    
+
+    public List<String> getRanks() {
+        List<String> ranks = new ArrayList<>();
+
+        try (Connection connection = getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement("SELECT ranking_name FROM ranking")) {
+            ResultSet rs = preparedStatement.executeQuery();
+            
+            while (rs.next()) {
+                ranks.add(rs.getString("ranking_name"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return ranks;
+    }
+
+    public List<String> getProducts() {
+        List<String> products = new ArrayList<>();
+
+        try (Connection connection = getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement("SELECT product_name FROM product")) {
+            ResultSet rs = preparedStatement.executeQuery();
+            
+            while (rs.next()) {
+                products.add(rs.getString("product_name"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return products;
+    }
 
     private void printSQLException(SQLException ex) {
         for (Throwable e : ex) {

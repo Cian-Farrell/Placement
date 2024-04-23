@@ -140,8 +140,8 @@
                   <option value="Select Product">Select Product</option>
                </select>
                <!-- Facings Input Box -->
-				<h2>Facings:</h2>
-				<input type="text" id="facingsInput" name="facings" placeholder="Enter facings..." required>
+               <h2>Facings:</h2>
+               <input type="text" id="facingsInput" name="facings" placeholder="Enter facings..." required>
                <div class="row mt-3">
                   <div class="col">
                      <!-- Save button -->
@@ -160,88 +160,49 @@
             </div>
          </div>
       </footer>
-      <!-- Store JavaScript -->
-      <script src="https://code.jquery.com/jquery.js"></script>
-      <script>
-         $(document).ready(function() {
-             // When a town is selected, fetch corresponding stores via AJAX
-             $('#townDropdown').change(function() {
-                 var selectedTown = $(this).val();
-                 $.ajax({
-                     url: 'getStores.jsp', // URL to your JSP/Servlet to fetch stores
-                     type: 'GET',
-                     data: { town: selectedTown },
-                     success: function(data) {
-                         // Clear existing options and append new options for stores
-                         $('#storeDropdown').empty();
-                         $('#storeDropdown').append('<option value="Select Store">Select Store</option>')                    
-                         $.each(data, function(index, store) {
-                             $('#storeDropdown').append('<option value="' + store + '">' + store + '</option>');
-                         });
-         
-                     },
-                     error: function(xhr, status, error) {
-                         console.error('Error fetching stores:', error);
-                     }
-                 });
-             });
-         });
-      </script>
-      <!-- Rank JavaScript -->
-      <script src="https://code.jquery.com/jquery.js"></script>
-      <script>
-         $(document).ready(function() {
-             // When a town is selected, fetch corresponding ranks via AJAX
-             $('#townDropdown').change(function() {
-                 var selectedTown = $(this).val();
-                 $.ajax({
-                     url: 'getRanks.jsp',
-                     type: 'GET',
-                     data: { town: selectedTown },
-                     success: function(data) {
-                         // Clear existing options and append new options for ranks
-                         $('#rankDropdown').empty();
-                         $('#rankDropdown').append('<option value="Select Rank">Select Rank</option>')                    
-                         $.each(data, function(index, rank) {
-                             $('#rankDropdown').append('<option value="' + rank + '">' + rank + '</option>');
-                         });
-                     },
-                     error: function(xhr, status, error) {
-                         console.error('Error fetching ranks:', error);
-                     }
-                 });
-             });
-         });
-         
-      </script>
 
-	  <script src="https://code.jquery.com/jquery.js"></script>
-      <script>
-      $(document).ready(function() {
-    	    // When a town is selected, fetch corresponding products via AJAX
-    	    $('#townDropdown').change(function() {
-    	        var selectedTown = $(this).val();
-    	        $.ajax({
-    	            url: 'getProduct.jsp',
-    	            type: 'GET',
-    	            data: { town: selectedTown },
-    	            success: function(data) {
-    	                // Clear existing options and append new options for products
-    	                $('#productDropdown').empty();
-    	                $('#productDropdown').append('<option value="Select Product">Select Product</option>')                    
-    	                $.each(data, function(index, product) {
-    	                    $('#productDropdown').append('<option value="' + product + '">' + product + '</option>');
-    	                });
-    	            },
-    	            error: function(xhr, status, error) {
-    	                console.error('Error fetching products:', error);
-    	            }
-    	        });
-    	    });
-    	});    
-      </script>
+
       
       <script src="assets/bootstrap/js/bootstrap.min.js"></script>
       <script src="assets/bootstrap/js/script.js"></script>
+      <!-- Add jQuery library -->
+      <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+      <!-- Add JavaScript code -->
+      <script>
+         $(document).ready(function() {
+             $('#townDropdown').change(function() {
+                 var town = $(this).val();
+                 $.ajax({
+                     url: 'saveSelection',
+                     type: 'GET',
+                     data: {town: town},
+                     dataType: 'json',
+                     success: function(data) {
+                         $('#storeDropdown').empty();
+                         $('#storeDropdown').append('<option value="Select Store">Select Store</option>');
+                         $.each(data.stores, function(index, store) {
+                             $('#storeDropdown').append('<option value="' + store + '">' + store + '</option>');
+                         });
+         
+                         $('#rankDropdown').empty();
+                         $('#rankDropdown').append('<option value="Select Rank">Select Rank</option>');
+                         $.each(data.ranks, function(index, rank) {
+                             $('#rankDropdown').append('<option value="' + rank + '">' + rank + '</option>');
+                         });
+         
+                         $('#productDropdown').empty();
+                         $('#productDropdown').append('<option value="Select Product">Select Product</option>');
+                         $.each(data.products, function(index, product) {
+                             $('#productDropdown').append('<option value="' + product + '">' + product + '</option>');
+                         });
+                     },
+                     error: function(xhr, status, error) {
+                         console.error('Error fetching data: ' + error);
+                     }
+                 });
+             });
+         });
+      </script>
    </body>
 </html>
